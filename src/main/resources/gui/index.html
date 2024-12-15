@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swish Server</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="container">
+    <h1>Swish Server</h1>
+    <div id="status-section">
+        <h2>Status</h2>
+        <p id="server-status">Server is not running</p>
+        <button id="start-server" onclick="startServer()">Start Server</button>
+        <button id="stop-server" onclick="stopServer()" disabled>Stop Server</button>
+    </div>
+    <div id="clients-section">
+        <h2>Connected Clients</h2>
+        <table id="clients-table">
+            <thead>
+            <tr>
+                <th>Client ID</th>
+                <th>Username</th>
+                <th>IP Address</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Dynamically populated -->
+            </tbody>
+        </table>
+    </div>
+    <div id="logs-section">
+        <h2>Logs</h2>
+        <textarea id="server-logs" readonly></textarea>
+    </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
