@@ -52,13 +52,12 @@ function updateServerStatus(isRunning) {
 }
 
 // Add a client to the table
-function addClient(clientId, username, ipAddress) {
+function addClient(nickName, ipAddress) {
     const tableBody = document.getElementById("clients-table").querySelector("tbody");
     const row = document.createElement("tr");
 
     row.innerHTML = `
-        <td>${clientId}</td>
-        <td>${username}</td>
+        <td>${nickName}</td>
         <td>${ipAddress}</td>
     `;
 
@@ -66,10 +65,11 @@ function addClient(clientId, username, ipAddress) {
 }
 
 // Remove a client from the table
-function removeClient(clientId) {
+function removeClient(nickName) {
+    console.log("platanito");
     const tableBody = document.getElementById("clients-table").querySelector("tbody");
     for (let row of tableBody.rows) {
-        if (row.cells[0].textContent === clientId) {
+        if (row.cells[0].textContent === nickName) {
             tableBody.removeChild(row);
             break;
         }

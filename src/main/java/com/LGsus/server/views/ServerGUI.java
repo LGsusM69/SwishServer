@@ -2,6 +2,7 @@ package com.LGsus.server.views;
 
 import com.LGsus.server.controllers.ServerController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.web.WebView;
 import javafx.scene.web.WebEngine;
@@ -11,15 +12,16 @@ import netscape.javascript.JSObject;
 
 public class ServerGUI extends Application {
     private ServerController controller;
+    private WebEngine webEngine;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         WebView webView = new WebView();
-        WebEngine webEngine = webView.getEngine();
+        webEngine = webView.getEngine();
 
         webEngine.load(getClass().getResource("/gui/index.html").toExternalForm());
 
-        controller = new ServerController();
+        controller = new ServerController(this);
 
         webEngine.getLoadWorker().stateProperty().addListener((observable, oldState, newState) -> {
             if (newState == javafx.concurrent.Worker.State.SUCCEEDED) {
@@ -57,5 +59,19 @@ public class ServerGUI extends Application {
         primaryStage.setTitle("Swish Server");
         primaryStage.setScene(new Scene(webView, 800, 600));
         primaryStage.show();
+    }
+    public void addClient(String nickName, String ipAddress) {
+        Platform.runLater(() -> {
+            String escapedNickName = nickName.replace("'", "\\'");
+            //String escapedIpAddress = ipAddress.replace("'", "\\'");
+            String escapedIpAddress = ipAddress.replace("/", "");
+            webEngine.executeScript("addClient('" + escapedNickName + "', '" + escapedIpAddress + "');");
+        });
+    }
+
+    public void removeClient(String nickName) {
+        Platform.runLater(() -> {
+            webEngine.executeScript("removeClient('" + nickName + "')");
+        });
     }
 }

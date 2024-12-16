@@ -1,5 +1,7 @@
 package com.LGsus.server.networking;
 
+import com.LGsus.server.controllers.ServerController;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,9 +15,11 @@ public class Server implements Runnable{
     private ServerSocket serverSocket;
     private ArrayList<ClientHandler> clients = new ArrayList<>();
     private Exception exc;
+    private ServerController controller;
 
-    public Server(int port) {
+    public Server(int port, ServerController serverController) {
         this.port = port;
+        this.controller = serverController;
     }
 
     @Override
@@ -29,10 +33,11 @@ public class Server implements Runnable{
                 Socket socket = serverSocket.accept();
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 String nickName = in.readLine();
-                System.out.println(nickName + " se acaba de conectar");
+                String ipAdress = socket.getRemoteSocketAddress().toString();
                 ClientHandler clientHandler = new ClientHandler(socket, this, in, nickName);
                 clients.add(clientHandler);
                 new Thread(clientHandler).start();
+                controller.addClient(nickName, ipAdress);
                 System.out.println("Connection accepted");
             }
         } catch(Exception e) {
@@ -48,6 +53,8 @@ public class Server implements Runnable{
         }
     }
     public void removeClient(ClientHandler client) {
+        String nickName = client.getNickName();
+        controller.removeClient(nickName);
         clients.remove(client);
     }
     public void stopServer() {

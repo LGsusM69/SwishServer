@@ -51,4 +51,5 @@ public class ClientHandler implements Runnable{
     public void sendMessage (String message) {
         out.println(nickName + ": " + message);
     }
+    public String getNickName() {return nickName;}
 }
