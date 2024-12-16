@@ -2,10 +2,20 @@ let isServerRunning = false;
 
 // Function to start the server
 function startServer() {
+const serverPort = document.getElementById("portNumber").value;
     console.log("JavaScript: start server function called");
+    let connected = ""
     if (window.app) {
-        window.app.startServer();
-        updateServerStatus(true);
+        connected = window.app.startServer(serverPort);
+        if(connected.localeCompare("success") == 0) {
+            updateServerStatus(true);
+        } else {
+        const statusText = document.getElementById("server-status");
+        statusText.textContent = connected;
+        statusText.style.color = "red";
+        startButton.disabled = false;
+        stopButton.disabled = true;
+        }
     } else {
         console.log("App not available!");
     }
@@ -18,6 +28,7 @@ function stopServer() {
         updateServerStatus(false);
     } else {
         console.log("App not available!");
+
     }
 }
 
