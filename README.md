@@ -1,5 +1,5 @@
-#SwishServer#
-##TCP chat##
+# SwishServer
+## TCP chat
 this is the server siede of a simple tcp chat with a simple UI.
 The interface allows the user to start a server on a specified port and hostname in the LAN where it is running.
 It also allws to see the usernames and IP adresses of connected clients
