@@ -12,7 +12,6 @@ public class ServerController {
     }
 
     public void startServer() {
-        System.out.println("calamarino");
         try {
             server = new Server(12345);
             Thread serverThread = new Thread(server);

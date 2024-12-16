@@ -28,7 +28,6 @@ public class ServerGUI extends Application {
                 JSObject window = (JSObject) webEngine.executeScript("window");
 
                 window.setMember("app", controller);
-                System.out.println("calamarino" + window.getMember("app"));
 
                 webEngine.executeScript("console.log('Java object bound as app:', app);");
             }

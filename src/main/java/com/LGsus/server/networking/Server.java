@@ -1,6 +1,8 @@
 package com.LGsus.server.networking;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -22,7 +24,10 @@ public class Server implements Runnable{
             System.out.println("Accepting connections on port: " + port);
             while(serverSocket != null) {
                 Socket socket = serverSocket.accept();
-                ClientHandler clientHandler = new ClientHandler(socket, this);
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                String nickName = in.readLine();
+                System.out.println(nickName + " se acaba de conectar");
+                ClientHandler clientHandler = new ClientHandler(socket, this, in, nickName);
                 clients.add(clientHandler);
                 new Thread(clientHandler).start();
                 System.out.println("Connection accepted");
